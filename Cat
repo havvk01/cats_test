@@ -1,0 +1,151 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Cat {
+
+    public String name;
+    public int cena;
+
+    public Cat(String name, int cena) {
+        this.name = name;
+        this.cena = cena;
+    }
+
+    public static ArrayList<Cat> cats(){
+        ArrayList<Cat> cats = new ArrayList<Cat>();
+        cats.add(0,new Cat("Tomas", 300));
+        cats.add(1,new Cat("Icecream", 500));
+        cats.add(2,new Cat("Philipp", 200));
+        cats.add(3,new Cat("Cat", 1000));
+        cats.add(4,new Cat("Kit2", 1000000));
+        return cats;
+    }
+
+
+    public static int basicMenu() {
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Здравствуйте! Выберите что вы хотите (введите цифру)");
+        System.out.println("1 - Посмотреть общее наличие");
+        System.out.println("2 - Узнать количество котов в магазине");
+        System.out.println("3 - Узнать наличие по своему карману");
+        System.out.println("4 - Найти кота по имени");
+        Scanner console = new Scanner(System.in);
+        int vibor = console.nextInt();
+        //return vibor;
+        switch(vibor) {
+            case 1:{
+                menu1();
+                break;
+            }
+            case 2:{
+                menu2();
+                break;
+            }
+            case 3:{
+                menu3();
+                break;
+            }
+            case 4:{
+                menu4();
+                break;
+            }
+            default:{
+                basicMenu();
+                break;
+            }
+
+        }
+        return 0;
+    }
+
+    public static  int menu1(){
+        ArrayList<Cat> cats = cats();
+        System.out.println("У нас в наличии есть следующие модели тыгыдыков:");
+        for (int i = 0; i < cats.size(); i++) {
+            System.out.println(i+1 + " - " + cats.get(i).name);
+
+        }
+        System.out.println("0 - Главное меню");
+        System.out.println("Кого вы хотите купить? (введите цифру) ");
+        Scanner console = new Scanner(System.in);
+        int checkin = console.nextInt();
+        if (checkin == 0){
+            basicMenu();
+        }
+        else if ((checkin >=1) && (checkin <= cats.size())) {
+            //System.out.println(checkin);
+            System.out.println(cats.get(checkin - 1).name + " - Price " + cats.get(checkin - 1).cena);
+            System.out.println("Спасибо за покупку!");
+            basicMenu();
+        } else {
+            System.out.println("error");
+        }
+        return 1;
+    }
+
+    public static  int menu2() {
+        ArrayList<Cat> cats = cats();
+        System.out.println("Всего котов в магазине:" + cats.size());
+        basicMenu();
+        return 1;
+    }
+
+    public static  int menu3(){
+        ArrayList<Cat> cats = cats();
+        System.out.println("Сколько у вас денег?");
+        Scanner console3 = new Scanner(System.in);
+        int money = console3.nextInt();
+        ArrayList<Cat> cats2 = new ArrayList<Cat>();
+        int j = 0;
+        for (int i = 0; i < cats.size(); i++) {
+            if (cats.get(i).cena <= money) {
+                cats2.add(j, new Cat(cats.get(i).name, cats.get(i).cena));
+                j++;
+            }
+        }
+
+        if (j!=0){
+            System.out.println("Вы можете купить:");
+        }
+        else {
+            System.out.println("Иди работай");
+        }
+        for (int i = 0; i < cats2.size(); i++) {
+            if (cats2.get(i).cena <= money) {
+                System.out.println(cats2.get(i).name + " - Price " + cats2.get(i).cena);
+            }
+        }
+        basicMenu();
+        return 1;
+    }
+
+    public static  int menu4(){
+        ArrayList<Cat> cats = cats();
+        System.out.println("Кого вы хотите найти? (введите имя) ");
+        Scanner console = new Scanner(System.in);
+        String name = console.nextLine().toLowerCase();
+        //System.out.println(name);
+        int j = 0;
+        for (int i = 0; i < cats.size(); i++) {
+            if (cats.get(i).name.toLowerCase().contains(name)){
+                j++;
+                if (j == 1){
+                    System.out.println("Найдены:");
+                }
+                System.out.println(cats.get(i).name + " - Price " + cats.get(i).cena);
+            }
+            //
+            // System.out.println(i+1 + " - " + cats.get(i).name);
+        }
+        if (j == 0){
+            System.out.println("not found");
+        }
+        basicMenu();
+        return 1;
+    }
+
+    public static void main(String[] args) {
+        cats();
+        basicMenu();
+    }
+}
